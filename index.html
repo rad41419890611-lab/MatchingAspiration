@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Matching Aspiration</title>
+  <meta name="theme-color" content="#0a1020" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Matching Aspiration" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Matching Aspiration" />
+  <meta name="description" content="Aspiration catheter reference tool" />
+  <link rel="icon" href="./icon.png" />
+  <link rel="apple-touch-icon" href="./icon-180.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <style>
+    :root {
+      --bg:#07111f; --bg2:#0b1730; --line:rgba(126,155,198,.18); --text:#e8f0fb; --muted:#90a7c7;
+      --accent:#00c8ff; --accentGlow:rgba(0,212,255,.18);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Hiragino Sans','Noto Sans JP',sans-serif;
+      background:radial-gradient(circle at 18% 12%, rgba(0,212,255,.12), transparent 26%),radial-gradient(circle at 82% 18%, rgba(96,112,255,.10), transparent 24%),linear-gradient(180deg, var(--bg2), var(--bg));}
+    .boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:radial-gradient(circle at 50% 34%, rgba(255,255,255,.05), transparent 22%),radial-gradient(circle at 50% 28%, var(--accentGlow), transparent 28%),linear-gradient(180deg, #0d1830 0%, #07111f 100%);transition:opacity .7s ease, visibility .7s ease;}
+    .boot.hide{opacity:0;visibility:hidden}
+    .bootCore{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:28px}
+    .bootIconWrap{width:120px;height:120px;border-radius:30px;padding:8px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);box-shadow:0 18px 50px rgba(0,0,0,.42),0 0 40px var(--accentGlow)}
+    .bootIcon{width:100%;height:100%;display:block;border-radius:24px}
+    .bootName{font-size:30px;font-weight:700;letter-spacing:-.03em}
+    .bootMeta{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+    .bootBar{width:136px;height:4px;border-radius:999px;background:rgba(255,255,255,.10);overflow:hidden;position:relative}
+    .bootBar::after{content:'';position:absolute;inset:0;width:42%;background:linear-gradient(90deg, transparent, var(--accent), transparent);animation:loading 1.4s ease-in-out infinite}
+    @keyframes loading{0%{transform:translateX(-140%)}100%{transform:translateX(280%)}}
+    .app{max-width:880px;margin:0 auto;padding:max(22px, env(safe-area-inset-top)) 20px max(34px, env(safe-area-inset-bottom));opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease}
+    .app.ready{opacity:1;transform:none}
+    .nav{display:flex;align-items:center;gap:14px;padding:12px 0 22px}
+    .navIcon{width:58px;height:58px;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.26)}
+    .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    h1{margin:0;font-size:clamp(30px,6vw,54px);line-height:.96;letter-spacing:-.045em}
+    .topSub{margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.9;max-width:50ch}
+    .hero{position:relative;overflow:hidden;background:linear-gradient(180deg, rgba(20,31,50,.82), rgba(9,16,29,.82));border:1px solid var(--line);border-radius:32px;padding:26px;box-shadow:0 22px 60px rgba(0,0,0,.34)}
+    .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg, rgba(255,255,255,.05), transparent 28%, transparent 70%, rgba(0,212,255,.05));pointer-events:none}
+    .heroGrid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px;align-items:center}
+    .heroCard{padding:18px;border-radius:24px;background:rgba(5,12,24,.42);border:1px solid rgba(134,160,205,.14)}
+    .heroIconWrap{display:flex;justify-content:center;align-items:center;min-height:260px;background:radial-gradient(circle at 50% 30%, var(--accentGlow), transparent 34%),linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));border-radius:28px;border:1px solid rgba(255,255,255,.08)}
+    .heroIcon{width:min(100%,260px);aspect-ratio:1;border-radius:28px;box-shadow:0 24px 58px rgba(0,0,0,.38)}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .chip{padding:9px 12px;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.16);font-size:13px;color:#ddecff}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}
+    .tile{background:linear-gradient(180deg, rgba(20,29,46,.76), rgba(9,16,29,.76));border:1px solid rgba(126,155,198,.15);border-radius:24px;padding:18px}
+    .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    .v{font-size:14px;line-height:1.9;color:var(--text)}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 18px;border-radius:16px;text-decoration:none;font-weight:700}
+    .btn.primary{color:#04111a;background:linear-gradient(180deg,#7ce6ff,var(--accent));box-shadow:0 12px 24px rgba(0,212,255,.18)}
+    .hint{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.8}
+    @media (max-width: 760px){.heroGrid,.grid{grid-template-columns:1fr} .heroIconWrap{min-height:220px} .nav{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="boot" id="boot">
+    <div class="bootCore">
+      <div class="bootIconWrap"><img class="bootIcon" src="./icon.png" alt="Matching Aspiration icon" /></div>
+      <div class="bootMeta">Professional reference tool</div>
+      <div class="bootName">Matching Aspiration</div>
+      <div class="bootBar"></div>
+    </div>
+  </div>
+  <main class="app" id="app">
+    <div class="nav">
+      <img class="navIcon" src="./icon.png" alt="Matching Aspiration icon" />
+      <div>
+        <div class="eyebrow">iOS-style standalone web app</div>
+        <h1>Matching Aspiration</h1>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="heroGrid">
+        <div>
+          <div class="eyebrow">Launch experience</div>
+          <p class="topSub">Aspiration catheter reference tool。ホーム画面追加後の見え方を意識し、起動画面・高級感のあるダークネイビー基調・抑制したシアンアクセント・ガラス調レイヤーで、iOS寄りのプロフェッショナルなスタイルに調整しています。</p>
+          <div class="chips">
+            <span class="chip">Professional</span>
+            <span class="chip">Medical × Tech</span>
+            <span class="chip">Standalone Ready</span>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="./icon.png" download="matching_aspiration.png">アイコン画像を保存</a>
+          </div>
+          <div class="hint">iPhone / iPad は共有メニューから「ホーム画面に追加」。Android は「ホーム画面に追加」または「インストール」を利用してください。</div>
+        </div>
+        <div class="heroCard">
+          <div class="heroIconWrap"><img class="heroIcon" src="./icon.png" alt="Matching Aspiration icon" /></div>
+        </div>
+      </div>
+    </section>
+    <section class="grid">
+      <article class="tile">
+        <div class="k">Splash concept</div>
+        <div class="v">Aspiration Flow Reference をテーマに、実アプリのような起動体験を演出する専用スプラッシュを実装しています。</div>
+      </article>
+      <article class="tile">
+        <div class="k">Deployment</div>
+        <div class="v">manifest / service worker / Apple touch icon / Netlify設定を同梱しているため、GitHub連携のNetlify公開にそのまま利用できます。</div>
+      </article>
+    </section>
+  </main>
+  <script>
+    const boot = document.getElementById('boot');
+    const app = document.getElementById('app');
+    const minDelay = 1200;
+    const start = performance.now();
+    function showApp() {
+      const elapsed = performance.now() - start;
+      const delay = Math.max(0, minDelay - elapsed);
+      setTimeout(() => {
+        boot.classList.add('hide');
+        app.classList.add('ready');
+      }, delay);
+    }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+    window.addEventListener('load', showApp);
+  </script>
+</body>
+</html>
