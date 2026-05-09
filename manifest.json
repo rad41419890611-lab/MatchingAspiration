@@ -1,7 +1,7 @@
 {
   "name": "Matching Aspiration",
   "short_name": "Matching Aspiration",
-  "start_url": "./Matching Aspiration.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0a0e1a",
