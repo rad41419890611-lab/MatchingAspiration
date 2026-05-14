@@ -3,8 +3,18 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Matching Aspiration</title>
+<meta name="theme-color" content="#7eb8df">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Matching Aspiration">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="manifest" href="/site.webmanifest">
 <style>
 :root{--bg:#0a0e1a;--sur:#111827;--sur2:#1a2234;--bdr:#1e2d45;--ac:#00c8ff;--ac2:#0080cc;--warn:#f59e0b;--danger:#ef4444;--ok:#10b981;--txt:#e2e8f0;--muted:#64748b;--dim:#94a3b8;--purple:#a78bfa;--orange:#fb923c;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -133,21 +143,6 @@ select.fs option{background:var(--sur2);}
 .cbr label{font-size:.78rem;color:var(--dim);cursor:pointer;}
 .fsl{font-size:.65rem;font-weight:700;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;padding:8px 0 3px;grid-column:1/-1;border-top:1px solid var(--bdr);margin-top:3px;}
 </style>
-
-<meta name="apple-mobile-web-app-title" content="Matching Aspiration">
-
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
-
-<link rel="icon" type="image/png" href="app-icon.png">
-
-<link rel="manifest" href="manifest.json">
-
-<meta name="theme-color" content="#0a0e1a">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 
@@ -177,9 +172,9 @@ select.fs option{background:var(--sur2);}
 #pwIn:focus{border-color:#00c8ff;}
 .em{font-size:13px;display:none;padding:3px 0;}
 .em-r{color:#ff4d6d;}.em-y{color:#ff9f1c;}
-.btn{width:100%;padding:14px;border-radius:10px;border:none;background:#00c8ff;color:#0a0e14;font-family:'DM Mono',monospace;font-size:16px;font-weight:700;cursor:pointer;min-height:50px;-webkit-appearance:none;transition:opacity .2s;}
-.btn:active{opacity:.8;}
-.btn:disabled{opacity:.35;cursor:not-allowed;}
+#pgLogin .btn{width:100%;padding:14px;border-radius:10px;border:none;background:#00c8ff;color:#0a0e14;font-family:'DM Mono',monospace;font-size:16px;font-weight:700;cursor:pointer;min-height:50px;-webkit-appearance:none;transition:opacity .2s;}
+#pgLogin .btn:active{opacity:.8;}
+#pgLogin .btn:disabled{opacity:.35;cursor:not-allowed;}
 </style>
 
 <div id="bootSplash" class="splash" aria-hidden="true">
@@ -193,7 +188,7 @@ select.fs option{background:var(--sur2);}
   <div class="logoWrap">
     <div class="logo">Matching Aspiration</div>
   </div>
-  <div class="sub">Secure Access — v2.2</div>
+  <div class="sub">Secure Access — v2.3</div>
   <div class="lbox">
     <div class="nb"><div class="nt">⚠ ご使用前に必ずお読みください</div>本ツールは<strong style="color:#e2eaf5;">医療機器ではありません</strong>。薬機法第２条第４項の「医療機器」に該当しません。脳血管内治療に従事する<strong style="color:#e2eaf5;">医療従事者向けの学習・参照目的ツール</strong>です。必ず最新のIFUを確認のうえ使用してください。</div>
     <label class="ar" for="agCk"><input type="checkbox" id="agCk" onchange="onAgree()"><span>本ツールが医療機器でないこと、参照・学習目的のみに使用すること、最終判断は術者が最新IFUを参照したうえで行うことに同意します。</span></label>
@@ -244,7 +239,7 @@ function onAgree(){
       <h1>Matching Aspiration</h1>
       <small>吸引カテーテル参照ツール（脳血管内治療補助用）</small>
     </div>
-    <div class="hver"><div style="color:var(--ok);font-size:.6rem;">✅ 非医療機器</div><div>v2.2</div></div>
+    <div class="hver"><div style="color:var(--ok);font-size:.6rem;">✅ 非医療機器</div><div>v2.3</div></div>
   </div>
 
   <div class="tabs">
@@ -296,7 +291,6 @@ function onAgree(){
         </div>
       </div>
 
-```
   <!-- Key concept note -->
   <div style="background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.18);border-radius:10px;padding:10px 13px;margin-bottom:12px;display:flex;gap:9px;align-items:flex-start;">
     <span style="font-size:1rem;flex-shrink:0;">💡</span>
@@ -340,7 +334,6 @@ function onAgree(){
   <div id="cr"><div class="emp"><div class="ei">🔗</div><p>1本目・2本目を選択すると<br>同軸挿入の可否と先端突出長が表示されます</p></div></div>
   <div class="dis"><div class="dr"><span>⚠️</span><span><strong>計算値は参照値です。</strong>実際の製品寸法は個体差・ロット差がある場合があります。使用前に必ず最新の添付文書を確認してください。</span></div></div>
 </div>
-```
 
   </div>
 

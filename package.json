@@ -1,0 +1,9 @@
+{
+  "name": "matching-aspiration",
+  "version": "1.0.0",
+  "description": "吸引カテーテル参照ツール（脳血管内治療補助用）",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  }
+}
